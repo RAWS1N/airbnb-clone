@@ -60,10 +60,10 @@ model Listing {
   guestCount Int
   locationValue String
   userId String @db.ObjectId
+  reservation Reservation[]
   price Int
 
   user User @relation(fields: [userId],references: [id],onDelete:Cascade)
-  reservation Reservation[]
 }
 
 
