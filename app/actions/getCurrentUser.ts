@@ -1,6 +1,7 @@
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { getServerSession } from "next-auth/next"
 import prisma from '@/app/libs/prismadb'
+import { User } from "@prisma/client"
 
 
 export async function getSession(){
@@ -8,7 +9,7 @@ export async function getSession(){
 }
 
 
-export default async function getCurrentUser(){
+export default async function getCurrentUser(): Promise<User | null>{
     try{
         const session = await getSession()
         if(!session?.user?.email){
@@ -24,6 +25,7 @@ export default async function getCurrentUser(){
         return currentUser
 
     }catch(e:any){
+        console.log(e.message)
         return null
     }
 }

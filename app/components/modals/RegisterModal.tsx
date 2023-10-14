@@ -35,6 +35,8 @@ const RegisterModal = (props: Props) => {
             setIsLoading(true)
             const res = await axios.post('/api/register', data)
             registerModal.onClose()
+            toast.success("Successfuly registered")
+            loginModal.onOpen()
         } catch (e: any) {
             console.log(e)
             toast.error("Something went wrong")

@@ -1,6 +1,12 @@
+export {default} from 'next-auth/middleware'
 
-const middleware = async() => {
-   
+
+export const config = {
+    matcher : [
+        "/trips",
+        '/reservations',
+        "/favorites",
+        "/properties"
+        
+    ]
 }
-
-export default middleware
