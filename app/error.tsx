@@ -1,10 +1,6 @@
 import EmptyState from "./components/EmptyState"
 
-interface ErrorProps {
-    error : any
-}
-
-const Error:React.FC<ErrorProps> = ({error}) => {
+const Error= () => {
   return (
     <EmptyState
         title="Uh Oh"
