@@ -1,28 +1,47 @@
 export const dynamic = 'force-dynamic'
 
+import { cookies } from 'next/headers'
+
 import getCurrentUser from "./actions/getCurrentUser";
-import getListings,{ListingParams} from "./actions/getListings";
+import getListings, { ListingParams } from "./actions/getListings";
 import Container from "./components/Container";
 import EmptyState from "./components/EmptyState";
 import ListingCard from "./components/listings/ListingCard";
+import ClientOnly from './components/ClientOnly';
 
-interface HomeProps {
-  searchParams : ListingParams
+
+
+async function getCookieData() {
+  const cookieData = cookies().getAll()
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(cookieData)
+    }, 1000)
+  )
 }
 
-const Home =  async({searchParams}:HomeProps) =>  {
+
+interface HomeProps {
+  searchParams: ListingParams
+}
+
+const Home = async ({ searchParams }: HomeProps) => {
+  // const cookieData = await getCookieData()
   const listings = await getListings(searchParams)
   const currentUser = await getCurrentUser()
 
-  if(listings.length === 0){
+  if (listings.length === 0) {
     return (
-      <EmptyState showReset/>
+      <ClientOnly>
+        <EmptyState showReset />
+      </ClientOnly>
     )
   }
   return (
-    <Container>
-      <div
-      className="
+    <ClientOnly>
+      <Container>
+        <div
+          className="
       pt-24 
       grid
       grid-cols-1
@@ -33,15 +52,16 @@ const Home =  async({searchParams}:HomeProps) =>  {
       2xl:grid-cols-6
       gap-8
       ">
-        {listings.map(listing => (
-          <ListingCard
-          key={listing.id}
-          currentUser={currentUser}
-          data={listing}
-          />
-        ))}
-      </div>
-    </Container>
+          {listings.map(listing => (
+            <ListingCard
+              key={listing.id}
+              currentUser={currentUser}
+              data={listing}
+            />
+          ))}
+        </div>
+      </Container>
+    </ClientOnly>
   )
 }
 

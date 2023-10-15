@@ -3,13 +3,14 @@ import TripsClient from "./TripsClient"
 
 import getCurrentUser from "../actions/getCurrentUser"
 import getReservations from "../actions/getReservation"
+import ClientOnly from "../components/ClientOnly"
 
 
 const TripsPage = async () => {
     const currentUser = await getCurrentUser()
-    const reservations = await getReservations({userId:currentUser?.id})
-    
-    if(!currentUser) {
+    const reservations = await getReservations({ userId: currentUser?.id })
+
+    if (!currentUser) {
         return (
             <EmptyState
                 title="Unauthorized"
@@ -18,19 +19,23 @@ const TripsPage = async () => {
         )
     }
 
-    if(reservations.length === 0){
+    if (reservations.length === 0) {
         return (
-            <EmptyState
-            title="No trips found"
-            subtitle="Looks like you haven't reserved any trips."
-            />
+            <ClientOnly>
+                <EmptyState
+                    title="No trips found"
+                    subtitle="Looks like you haven't reserved any trips."
+                />
+            </ClientOnly>
         )
     }
     return (
-        <TripsClient
-            reservations={reservations}
-            currentUser={currentUser}
-        />
+        <ClientOnly>
+            <TripsClient
+                reservations={reservations}
+                currentUser={currentUser}
+            />
+        </ClientOnly>
     )
 }
 

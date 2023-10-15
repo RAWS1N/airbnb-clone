@@ -3,13 +3,14 @@ import PropertiesClient from "./PropertiesClient"
 
 import getCurrentUser from "../actions/getCurrentUser"
 import getListings from "../actions/getListings"
+import ClientOnly from "../components/ClientOnly"
 
 
 const TripsPage = async () => {
     const currentUser = await getCurrentUser()
-    const listings = await getListings({userId:currentUser?.id})
-    
-    if(!currentUser) {
+    const listings = await getListings({ userId: currentUser?.id })
+
+    if (!currentUser) {
         return (
             <EmptyState
                 title="Unauthorized"
@@ -18,19 +19,21 @@ const TripsPage = async () => {
         )
     }
 
-    if(listings.length === 0){
+    if (listings.length === 0) {
         return (
             <EmptyState
-            title="No properties found"
-            subtitle="Looks like you have no properties."
+                title="No properties found"
+                subtitle="Looks like you have no properties."
             />
         )
     }
     return (
-        <PropertiesClient
-            listings={listings}
-            currentUser={currentUser}
-        />
+        <ClientOnly>
+            <PropertiesClient
+                listings={listings}
+                currentUser={currentUser}
+            />
+        </ClientOnly>
     )
 }
 
