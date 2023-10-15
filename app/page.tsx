@@ -1,3 +1,6 @@
+export const dynamic = 'auto'
+export const dynamicParams = true
+
 import getCurrentUser from "./actions/getCurrentUser";
 import getListings,{ListingParams} from "./actions/getListings";
 import Container from "./components/Container";
