@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import {FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
-import {BiRupee} from 'react-icons/bi'
+import { BiDollar } from 'react-icons/bi'
 
 interface InputProps {
     id :string,
@@ -21,7 +21,7 @@ const Input:React.FC<InputProps> = ({
 }) => {
   return (
     <div className="full relative">
-      {formatPrice && <BiRupee size={24} className="text-neutral-700 absolute top-5 left-2"/>}
+      {formatPrice && <BiDollar size={24} className="text-neutral-700 absolute top-5 left-2"/>}
       <input
       id={id}
       disabled={disabled}
